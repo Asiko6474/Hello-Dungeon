@@ -11,6 +11,7 @@ namespace Hello_Dungeon
             string name = "";
             string characterJob;
             int health;
+            bool validinput = false;
             bool Dead = false;
             bool faction1Favor = false;
             bool faction2Favor = false;
@@ -38,7 +39,7 @@ namespace Hello_Dungeon
             Console.ReadLine();
             Console.WriteLine("'There is a training dummy over there, go on and head to it.'");
             Console.ReadLine();
-            Console.WriteLine("Before you walk over to the dummy the man grabs you by the shoulder. 'Wait hold on, before you do, we need to discuss your class.'");
+            Console.WriteLine("Before you walk over to the dummy the man grabs you by the shoulder. 'Before you do, we need to discuss your class.'");
 
             // This is where I am going to program the moose.
 
@@ -48,43 +49,52 @@ namespace Hello_Dungeon
             Console.WriteLine("What class are you?");
             Console.WriteLine("1. Bard");
             Console.WriteLine("2. Mage");
-            string input = Console.ReadLine();
-            if (input == "1" || input == "Bard") 
+            while (validinput == false)
             {
-                characterJob = "Bard";
-                health = 100;
-                strength = 10;
-                Console.WriteLine("Ah so you are a Bard.");
-                Console.WriteLine("Name: " + name);
-                Console.WriteLine("Class: " + characterJob);
-                Console.WriteLine("health: " + health);
-                Console.WriteLine("Strength: " + strength);
-            }
-          else  if (input == "2" || input == "Mage")
-            {
-                characterJob = "Mage";
-                health = 75;
-                strength = 5;
-                Console.WriteLine("Ah so you are a Mage");
-                Console.WriteLine("Name: " + name);
-                Console.WriteLine("Class: " + characterJob);
-                Console.WriteLine("health: " + health);
-                Console.WriteLine("Strength: " + strength);
-            }
-          else if (input == "-1") 
-            {
-                characterJob = "Pessimist";
-                health = 10;
-                strength = 3;
-                Console.WriteLine("Ah so you are a Pessimist");
-                Console.WriteLine("Name: " + name);
-                Console.WriteLine("Class: " + characterJob);
-                Console.WriteLine("health: " + health);
-                Console.WriteLine("Strength: " + strength);
-            }
-            else
-            {
-                Console.WriteLine("That is not a class option");
+                string input = Console.ReadLine();
+                if (input == "1" || input == "Bard")
+                {
+                    characterJob = "Bard";
+                    health = 100;
+                    strength = 10;
+                    validinput = true; 
+                    Console.WriteLine("Ah so you are a Bard.");
+                    Console.WriteLine("");
+                    Console.WriteLine("Name: " + name);
+                    Console.WriteLine("Class: " + characterJob);
+                    Console.WriteLine("health: " + health);
+                    Console.WriteLine("Strength: " + strength);
+                }
+                else if (input == "2" || input == "Mage")
+                {
+                    characterJob = "Mage";
+                    health = 75;
+                    strength = 5;
+                    validinput = true;
+                    Console.WriteLine("Ah so you are a Mage");
+                    Console.WriteLine("");
+                    Console.WriteLine("Name: " + name);
+                    Console.WriteLine("Class: " + characterJob);
+                    Console.WriteLine("health: " + health);
+                    Console.WriteLine("Strength: " + strength);
+                }
+                else if (input == "-1")
+                {
+                    characterJob = "Pessimist";
+                    health = 10;
+                    strength = 3;
+                    validinput = true;
+                    Console.WriteLine("Ah so you are a Pessimist");
+                    Console.WriteLine("");
+                    Console.WriteLine("Name: " + name);
+                    Console.WriteLine("Class: " + characterJob);
+                    Console.WriteLine("health: " + health);
+                    Console.WriteLine("Strength: " + strength);
+                }
+                else
+                {
+                    Console.WriteLine("That is not a class option");
+                }
             }
 
             Console.WriteLine("Alright then, NOW head to the training dummy for practice");
@@ -109,6 +119,50 @@ namespace Hello_Dungeon
             else
             {
                 Console.WriteLine("invalid input");
+            }
+            Console.Clear();
+
+            // this is just a section of me practicing (for) code
+            int attempts = 3;
+            string answer;
+            for (int i = 0; i < attempts; i++)
+            {
+                Console.WriteLine("The more there is of me, the less you see, what am I?");
+                answer = Console.ReadLine();
+                int attemptsRemaining = attempts - i;
+             if (answer == "darkness")
+                {
+                    Console.WriteLine("Correct!");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("wrong, try again!");
+                    Console.WriteLine("Attempts Remaining: " + attemptsRemaining);
+                }
+            }
+            Console.Clear();
+            // Final practice
+            Console.WriteLine("The Dummy had 4 arms, only one arm is the key to the candy. Which arm do you pull?");
+            Console.WriteLine("1. pink one?" +
+                "2. blue one?" +
+                "3. green one?" +
+                "4 red one");
+            for (int i = 0; i < attempts; i++)
+            {
+                answer = Console.ReadLine();
+                int attemptsRemaining = attempts - i;
+                
+                if (answer = "4")
+                {
+                    Console.WriteLine("Correct!");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("wrong, try again!");
+                    Console.WriteLine("Attempts Remaining: " + attemptsRemaining);
+                }
             }
         }
     }
