@@ -9,40 +9,107 @@ namespace Hello_Dungeon
         public void Run()
         {
             string name = "";
+            string characterJob;
             int health;
             bool Dead = false;
             bool faction1Favor = false;
             bool faction2Favor = false;
-            float Strength = 5;
+            float strength = 5;
             // All that this is is the intro message, don't expect it to be good, I really did not think much about it. (yet)
 
             //I keep using the "WriteLine" command to space out the sentences and the "ReadLine" command to move the story forward when an input is made, this way the player can read at their own pace and not get bombarded by words.
-            Console.WriteLine("The land of Amidonia was a place that was destroyed by war.");
+            Console.WriteLine("There is a man infront of you, shrouded in mostly darkness, speaking in a deep vice..");
             Console.ReadLine();
-            Console.WriteLine("2 factions have been at a stalemate for many years, both with waning supplies at a rapid rate.");
+            Console.WriteLine("'So are you the new guy that was supposed to be coming in today?'");
             Console.ReadLine();
-            Console.WriteLine("This is where you come in, a traveler who was trapped in Amidonia, unable to leave due to both factions trying to limit any and all movement");
+            Console.WriteLine("You nod hesitantly, he pulls a book infront of you and gives you a pen.");
             Console.ReadLine();
-            Console.WriteLine("Please, speak your name, speak and see if your name will be known through the lands. There is no reason for your journy if none know your name");
+            Console.WriteLine("'Write down your information and head to the training grounds.'");
             Console.WriteLine("");
-            Console.WriteLine("Enter your name:");
+            Console.WriteLine("Write your name:");
+            Console.Write("> ");
             name = Console.ReadLine();
             Console.WriteLine("");
-            Console.WriteLine("Ah..." + name + "...Your name is in my memory, but go out and let your name be known to all of Amidonia");
+            Console.WriteLine("'So you're " + name + "...Very well, the training ground is in the back'");
             Console.ReadLine();
-            Console.WriteLine("No matter what your goal is, no matter which of the two factions you support. I will be here for you");
+            Console.WriteLine("The man guides you to the back, you see a number of soldiers in a line, they seem to be waiting your arrival");
             Console.ReadLine();
-            Console.WriteLine("However because you told me your name, It is only right I tell you mine.");
+            Console.WriteLine("'These men will be your family from now on, in our situation, we are all we have now.'");
             Console.ReadLine();
-            Console.WriteLine("My name is....");
+            Console.WriteLine("'There is a training dummy over there, go on and head to it.'");
             Console.ReadLine();
-            Console.WriteLine("Not Important!");
-            
+            Console.WriteLine("Before you walk over to the dummy the man grabs you by the shoulder. 'Wait hold on, before you do, we need to discuss your class.'");
+
             // This is where I am going to program the moose.
 
             // IF I CAN FIND ONE!
-            
-            // Ok but does it work twice?
+
+            // This is the class section
+            Console.WriteLine("What class are you?");
+            Console.WriteLine("1. Bard");
+            Console.WriteLine("2. Mage");
+            string input = Console.ReadLine();
+            if (input == "1" || input == "Bard") 
+            {
+                characterJob = "Bard";
+                health = 100;
+                strength = 10;
+                Console.WriteLine("Ah so you are a Bard.");
+                Console.WriteLine("Name: " + name);
+                Console.WriteLine("Class: " + characterJob);
+                Console.WriteLine("health: " + health);
+                Console.WriteLine("Strength: " + strength);
+            }
+          else  if (input == "2" || input == "Mage")
+            {
+                characterJob = "Mage";
+                health = 75;
+                strength = 5;
+                Console.WriteLine("Ah so you are a Mage");
+                Console.WriteLine("Name: " + name);
+                Console.WriteLine("Class: " + characterJob);
+                Console.WriteLine("health: " + health);
+                Console.WriteLine("Strength: " + strength);
+            }
+          else if (input == "-1") 
+            {
+                characterJob = "Pessimist";
+                health = 10;
+                strength = 3;
+                Console.WriteLine("Ah so you are a Pessimist");
+                Console.WriteLine("Name: " + name);
+                Console.WriteLine("Class: " + characterJob);
+                Console.WriteLine("health: " + health);
+                Console.WriteLine("Strength: " + strength);
+            }
+            else
+            {
+                Console.WriteLine("That is not a class option");
+            }
+
+            Console.WriteLine("Alright then, NOW head to the training dummy for practice");
+            Console.ReadLine();
+            Console.Clear();
+
+            //This is the first encounter in the game thus far.
+            Console.WriteLine("");
+            Console.WriteLine("You see a training dummy infront of you. It is staring at you...menacingly!");
+            Console.WriteLine("1. Attack it!");
+            Console.WriteLine("1. Say Hi!");
+            Console.Write(">");
+            string choice = Console.ReadLine();
+            if (choice == "1")
+            {
+                Console.WriteLine("You punched the dummy, it pulls out a gun and shoots you...you die");
+            }
+            else if (choice == "2")
+            {
+                Console.WriteLine("The Dummy smiles at you and pulls out a cake, you both enjoy cake.");
+            }
+            else
+            {
+                Console.WriteLine("invalid input");
+            }
         }
     }
 }
