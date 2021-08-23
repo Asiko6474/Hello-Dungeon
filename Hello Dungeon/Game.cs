@@ -242,19 +242,19 @@ namespace Hello_Dungeon
             // This section is the riddle door, remember, the answer is darkness!
             int attempts = 3;
             string answer;
-            for (int i = 0; i < attempts; i++)
+            for (int i = 0; i <= attempts; i++)
             {
                 Console.WriteLine("The more there is of me, the less you see, what am I?");
                 answer = Console.ReadLine();
                 int attemptsRemaining = attempts - i;
-             if (answer == "darkness" || answer == "Darkness" || answer == "dARKNESS" || answer == "DARKNESS")
+                if (answer == "darkness" || answer == "Darkness" || answer == "dARKNESS" || answer == "DARKNESS")
                 {
                     Console.WriteLine("The door swings open, you seem to have gotten the right answer.");
                     Console.ReadLine();
 
                     MakeTextYellow();
 
-                    Console.WriteLine("Well well welll, looks like you got it.");
+                    Console.WriteLine("Well well well, looks like you got it.");
                     break;
                 }
                 else
@@ -262,7 +262,7 @@ namespace Hello_Dungeon
                     Console.WriteLine("That did not seem to be the answer.");
                     Console.WriteLine("Attempts Remaining: " + attemptsRemaining);
                 }
-             if (attemptsRemaining == 0)
+                if (attemptsRemaining == 0)
                 {
 
                     MakeTextYellow();
@@ -271,7 +271,12 @@ namespace Hello_Dungeon
                     Console.WriteLine("Really the answer could be anything, but this is a riddle I seen before.");
                     Console.WriteLine("Don't beat yourself up over this");
                 }
+                else
+                {
+                    
+                }
             }
+            Console.ReadLine();
             Console.Clear();
             // Going back to the story, this time what happens when you enter the dungeon
 
@@ -307,7 +312,7 @@ namespace Hello_Dungeon
             void LethalEncounter()
             { 
               string answers;
-                for (int i = 0; i < attempts; i++)
+                for (int i = 0; i <= attempts; i++)
                 {
                     answers = Console.ReadLine();
                     int attemptsRemaining = attempts - i;
@@ -324,18 +329,28 @@ namespace Hello_Dungeon
                     }
                     if (attemptsRemaining == 0)
                     {
-                        Console.WriteLine("The figure flies past you, thinking you are safe you try to take a moment to breath, only for your head to fall off...");
-                        Console.WriteLine("You Died...press 1 to Try again, Press any other button to exit");
-                        string input = Console.ReadLine();
-                        if (input == "1")
-                        {
-                            LethalEncounter();
-                        }
-                        else
-                        {
-                            Console.WriteLine("goodbye quitter!");
-                        }
+                        Dead = true;
                     }
+                    else
+                    {
+
+                    }
+                }
+            }
+            LethalEncounter();
+            if (Dead == true)
+            {
+                Console.WriteLine("The figure flies past you, thinking you are safe you try to take a moment to breath, only for your head to fall off...");
+                Console.WriteLine("You Died...press 1 to Try again, Press any other button to exit");
+                string input = Console.ReadLine();
+                if (input == "1")
+                {
+                    LethalEncounter();
+                }
+                else
+                {
+                    Console.WriteLine("goodbye quitter!");
+                    Console.ReadLine();
                 }
             }
             //If the player manages to survive, we will move to the last encounter here
@@ -395,9 +410,11 @@ namespace Hello_Dungeon
                     Console.WriteLine("Don't beat yourself up for not being able to kill her, no one was able to kill her yet");
                     Console.WriteLine("But you managed to survive your encounter, you are now one of us!");
                     Console.WriteLine("Tell your new brothers your name! Loud and Proud!");
+                    Console.ReadLine();
 
                     MakeTextBlue();
 
+                    Console.Clear();
                     Console.WriteLine(name);
                 }
                 if (choice == "2")
@@ -420,13 +437,14 @@ namespace Hello_Dungeon
                     MakeTextDarkRed();
 
                     Console.WriteLine("I...");
-                    Console.WriteLine("You will be hunting along with me from that choice you made...");
+                    Console.WriteLine("You will be hunted along with me from that choice you made...");
                     Console.WriteLine("Foolish to make the right choice.");
                     Console.WriteLine("My name is Victoria, please, tell me yours.");
                     Console.ReadLine();
 
                     MakeTextRed();
 
+                    Console.Clear();
                     Console.WriteLine(name);
                 }
             }
