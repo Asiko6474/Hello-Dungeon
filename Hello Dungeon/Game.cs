@@ -6,6 +6,69 @@ namespace Hello_Dungeon
 {
     class Game
     {
+        
+        string name = "";
+        string characterJob;
+        bool finalDecision = false;
+        int health;
+        bool validinput = false;
+        bool dummyChoice = false;
+        bool Dead = false;
+        bool gameRestart = false;
+        bool faction1Favor = true;
+        bool faction2Favor = false;
+        float strength = 5;
+        // This section is for my color changing functions
+
+        void MakeTextYellow()
+        {
+            Console.ForegroundColor
+            = ConsoleColor.Yellow;
+        }
+        void MakeTextWhite()
+        {
+            Console.ForegroundColor
+            = ConsoleColor.White;
+        }
+        void MakeTextDarkRed()
+        {
+            Console.ForegroundColor
+            = ConsoleColor.DarkRed;
+        }
+        void MakeTextRed()
+        {
+            Console.ForegroundColor
+            = ConsoleColor.Red;
+        }
+        void MakeTextDarkBlue()
+        {
+            Console.ForegroundColor
+                = ConsoleColor.DarkBlue;
+        }
+        void MakeTextBlue()
+        {
+            Console.ForegroundColor
+                = ConsoleColor.Blue;
+        }
+        // function to show off stats
+
+        void DisplayStats()
+        {
+            Console.WriteLine("Name: " + name);
+            Console.WriteLine("Class: " + characterJob);
+            Console.WriteLine("health: " + health);
+            Console.WriteLine("Strength: " + strength);
+        }
+        /// <summary>
+        /// Rewrties the Dummy loop if the wrong answer was given
+        /// </summary>
+        void Displaydummy()
+        {
+            Console.WriteLine("You see a training dummy infront of you. It is staring at you...menacingly!");
+            Console.WriteLine("1. Attack it!");
+            Console.WriteLine("1. Say Hi!");
+            Console.Write(">");
+        }
         public void Run()
         {
             //This was important note
@@ -13,68 +76,6 @@ namespace Hello_Dungeon
             //!(A || B)
             //!(imputReceived == 1 || inputReceived == 2)
             // yeaah
-            string name = "";
-            string characterJob;
-            bool finalDecision = false;
-            int health;
-            bool validinput = false;
-            bool dummyChoice = false;
-            bool Dead = false;
-            bool faction1Favor = true;
-            bool faction2Favor = false;
-            float strength = 5;
-
-            // This section is for my color changing functions
-
-            void MakeTextYellow()
-            {
-                Console.ForegroundColor
-                = ConsoleColor.Yellow;
-            }
-            void MakeTextWhite()
-            {
-                Console.ForegroundColor
-                = ConsoleColor.White;
-            }
-            void MakeTextDarkRed()
-            {
-                Console.ForegroundColor
-                = ConsoleColor.DarkRed;
-            }
-            void MakeTextRed()
-            {
-                Console.ForegroundColor
-                = ConsoleColor.Red;
-            }
-            void MakeTextDarkBlue()
-            {
-                Console.ForegroundColor
-                    = ConsoleColor.DarkBlue;
-            }
-            void MakeTextBlue()
-            {
-                Console.ForegroundColor
-                    = ConsoleColor.Blue;
-            }
-            // function to show off stats
-
-            void DisplayStats()
-            {
-                Console.WriteLine("Name: " + name);
-                Console.WriteLine("Class: " + characterJob);
-                Console.WriteLine("health: " + health);
-                Console.WriteLine("Strength: " + strength);
-            }
-            /// <summary>
-            /// Rewrties the Dummy loop if the wrong answer was given
-            /// </summary>
-            void Displaydummy()
-            {
-                Console.WriteLine("You see a training dummy infront of you. It is staring at you...menacingly!");
-                Console.WriteLine("1. Attack it!");
-                Console.WriteLine("1. Say Hi!");
-                Console.Write(">");
-            }
             // All that this is is the intro message, don't expect it to be good, I really did not think much about it. (yet)
 
             //I keep using the "WriteLine" command to space out the sentences and the "ReadLine" command to move the story forward when an input is made, this way the player can read at their own pace and not get bombarded by words.
@@ -240,7 +241,7 @@ namespace Hello_Dungeon
             Console.Clear();
 
             // This section is the riddle door, remember, the answer is darkness!
-            int attempts = 3;
+            int attempts = 2;
             string answer;
             for (int i = 0; i <= attempts; i++)
             {
@@ -345,6 +346,12 @@ namespace Hello_Dungeon
                 string input = Console.ReadLine();
                 if (input == "1")
                 {
+                    Console.Clear();
+                    Console.WriteLine("You see a figure flying directly at you, 4 options quickly race to your mind");
+                    Console.WriteLine("1. Sit and wait for someone to help you,");
+                    Console.WriteLine("2. Hold out your weapon trying to get the figure to run into the weapon,");
+                    Console.WriteLine("3. Swing at the figure trying to hit it like a baseball");
+                    Console.WriteLine("4. Dodge");
                     LethalEncounter();
                 }
                 else
@@ -379,7 +386,7 @@ namespace Hello_Dungeon
 
             MakeTextYellow();
 
-            Console.WriteLine("Silence...there is no excuse for you kind.");
+            Console.WriteLine("Silence...there is no excuse for your kind.");
             Console.WriteLine("Your kind is the humanoid mosquitoe, but at least mosquitoes know their place.");
             Console.WriteLine("If anything, you should be thanking us for putting your kind out of their misery.");
             Console.WriteLine(name + "! Go ahead, make her your first kill.");
@@ -396,11 +403,16 @@ namespace Hello_Dungeon
             Console.WriteLine("Should I kill her?");
             Console.WriteLine("1. Yes, monster deserve to die.");
             Console.WriteLine("2. No, I don't want to become a monster.");
+
+            //This decision will decide the path the player decides to make, option 1 sides with faction 1, making the player Blue
+            //option 2 sides with faction 2, making the player Red
+
             while (finalDecision == false)
             {
                 string choice = Console.ReadLine();
                 if (choice == "1")
                 {
+                    finalDecision = true;
                     Console.WriteLine("You raise your weapon, but as you swing down to her she grabs you by the wrist.");
                     Console.WriteLine("She pushes you away, looking back at her shows she had wings pushed out her back, demonic looking wings.");
                     Console.WriteLine("She flies out of the room through the entrance you came in from.");
@@ -418,9 +430,11 @@ namespace Hello_Dungeon
 
                     Console.Clear();
                     Console.WriteLine(name);
+                    Console.ReadLine();
                 }
                 if (choice == "2")
                 {
+                    finalDecision = true;
                     faction1Favor = false;
                     faction2Favor = true;
                     Console.WriteLine("You drop your weapon, you just can't bring yourself to kill her.");
@@ -448,6 +462,11 @@ namespace Hello_Dungeon
 
                     Console.Clear();
                     Console.WriteLine(name);
+                    Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("This is not an option");
                 }
             }
         }
