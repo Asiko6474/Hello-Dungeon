@@ -351,7 +351,9 @@ namespace Hello_Dungeon
                 {
                     Console.WriteLine("goodbye quitter!");
                     Console.ReadLine();
+                    Environment.Exit(0);
                 }
+
             }
             //If the player manages to survive, we will move to the last encounter here
 
