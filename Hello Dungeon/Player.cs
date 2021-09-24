@@ -10,7 +10,27 @@ namespace Hello_Dungeon
         private Item _currentItem;
         private int _currentItemIndex;
         private string _job;
+        private int _gold;
+        private Item[] _inventory;
 
+        public Player()
+        {
+            _gold = 1000;
+            _inventory = new Item[3];
+        }
+        // Whe the player uses a store, this allows the player to actually buy things from said store.
+        public bool Buy(Item item, int inventoryIndex)
+        {
+            //if the player has more gold than the cost of the item
+            if(_gold >= item.cost)
+            {
+                _gold -= item.cost;
+                _inventory[inventoryIndex] = item;
+                return true;
+            }
+
+            return false;
+        }
         public override float DefenseLevel
         {
             get
@@ -42,6 +62,16 @@ namespace Hello_Dungeon
 
                 return base.Health;
             }
+        }
+
+        public int GetGold()
+        {
+            return _gold;
+        }
+
+        public Item[] GetInventory()
+        {
+            return _inventory;
         }
 
     }

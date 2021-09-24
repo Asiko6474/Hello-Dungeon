@@ -6,7 +6,11 @@ namespace Hello_Dungeon
 {
     public enum Scene
     {
-        INTRODUCTION
+        INTRODUCTION,
+        SHOP,
+        ROOMONE,
+        ROOMTWO,
+        ROOMTHREE
     }
 
     public enum ItemType
@@ -22,6 +26,7 @@ namespace Hello_Dungeon
         public string Name;
         public float StatBoost;
         public ItemType Type;
+        public int cost;
     }
     class Game
     {
@@ -64,34 +69,43 @@ namespace Hello_Dungeon
         }
         // function to show off stats
 
+
+            // this function is to get the plyer's name.
         void GetPlayerName()
         {
+            //Starting with a simple introduction sentence
             Console.WriteLine("Placeholder name entry");
             Console.Write("> ");
+            //This is how the player can put in the name
             _playerName = Console.ReadLine();
+            //This is to test to see if the naming works
             Console.WriteLine("Your name is: " + _playerName);
         }
 
+        //This is to select the player's class in the game
         void CharacterClassSelection()
         {
             int choice = GetInput("OH! A new one! Just select your class here and I wil get you the appropiate gear", "Scout","Man-At-Arms","Heavy");
 
+            //This is to turn into a scout which make the player's stats 50 health, 125 attack, 50 defense.
             if (choice == 0)
             {
                 _class = "Scout";
             }
-
+            //this is to turn into a Man-At-Arms which make the player's stats 75 for health, attack, and defense.
             if (choice == 1)
             {
                 _class = "Man-At-Arms";
             }
-
+            //This is the turn into a Heavy, which make the player's stats 75 health, 50 attack, 100 defense.
             if (choice == 2)
             {
-                _class = "Man-At-Arms";
+                _class = "Heavy";
             }
         }
 
+
+        //This function will keep playing the game in the appropiate order.
         void DisplayCurrentScene()
         {
             switch(_currentScene)
@@ -103,11 +117,13 @@ namespace Hello_Dungeon
             }
         }
 
+
+        //This will be the first thing in the game that gives the player to start a new game, or to load a game
         void MainMenu()
         {
 
         }
-
+        //This function allows the player to put in options
         int GetInput(string description, params string[] options)
         {
             string input = "";

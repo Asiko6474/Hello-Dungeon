@@ -6,6 +6,5 @@ namespace Hello_Dungeon
 {
     class Shop
     {
-
-    }
+    }   
 }
