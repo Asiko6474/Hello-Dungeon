@@ -22,5 +22,27 @@ namespace Hello_Dungeon
             }
         }
 
+        public override float AttackLevel
+        {
+            get
+            {
+                if (_currentItem.Type == ItemType.ATTACK)
+                    return base.AttackLevel + _currentItem.StatBoost;
+
+                return base.AttackLevel;
+            }
+        }
+
+        public override float Health
+        {
+            get
+            {
+                if (_currentItem.Type == ItemType.HEALTH)
+                    return base.Health + _currentItem.StatBoost;
+
+                return base.Health;
+            }
+        }
+
     }
 }
