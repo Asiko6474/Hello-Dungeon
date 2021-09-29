@@ -9,7 +9,8 @@ namespace Hello_Dungeon
         INTRODUCTION,
         ROOMONE,
         ROOMTWO,
-        ROOMTHREE
+        ROOMTHREE,
+        RESTARTMENU
     }
 
     public enum ItemType
@@ -110,11 +111,11 @@ namespace Hello_Dungeon
 
             Entity Lamia = new Entity("Lamia", 20, 40, 10);
             Entity Centaur = new Entity("Centaur", 50, 40, 20);
-            Entity Human = new Entity("Human", 75, 50, 50);
+            Entity Human = new Entity("Human", 100, 25, 50);
 
-            Entity Zombie = new Entity("Zombie", 25, 100, 30);
+            Entity Zombie = new Entity("Zombie", 25, 50, 30);
             Entity Demoness = new Entity("Demoness", 75, 75, 0);
-            Entity Victoria = new Entity("???", 125, 65, 30);
+            Entity Victoria = new Entity("???", 125, 60, 20);
 
             _enemies = new Entity[] { Lamia, Centaur, Human, Zombie, Demoness, Victoria };
 
@@ -195,7 +196,8 @@ namespace Hello_Dungeon
 
                 if (_currentEnemyIndex >= _enemies.Length)
                 {
-                    Console.WriteLine("You've slain all the enemies! You are a true warrior.");
+                    Console.WriteLine("All the enemies are now dead.");
+                    _currentScene++;
                     return;
                 }
 
@@ -205,15 +207,15 @@ namespace Hello_Dungeon
 
         private void InitItems()
         {
-            _greatsword = new Item { Name = "Great Sword $", StatBoost = 50, Type = ItemType.ATTACK };
+            _greatsword = new Item { Name = "Great Sword ", StatBoost = 50, Type = ItemType.ATTACK };
             _greatsword.cost = 1000;
-            _shortsword = new Item { Name = "Short Sword $", StatBoost = 25, Type = ItemType.ATTACK };
+            _shortsword = new Item { Name = "Short Sword ", StatBoost = 25, Type = ItemType.ATTACK };
             _shortsword.cost = 500;
-            _obtainiumArmor = new Item { Name = "The Legendary Obtainium Armor!!! $", StatBoost = 100, Type = ItemType.DEFENSE };
+            _obtainiumArmor = new Item { Name = "The Legendary Obtainium Armor!!! ", StatBoost = 100, Type = ItemType.DEFENSE };
             _obtainiumArmor.cost = 180000;
-            _ironArmor = new Item { Name = "Iron Armor $", StatBoost = 25, Type = ItemType.DEFENSE };
+            _ironArmor = new Item { Name = "Iron Armor ", StatBoost = 25, Type = ItemType.DEFENSE };
             _ironArmor.cost = 200;
-            _medKit = new Item { Name = "Medical Equipment  $", StatBoost = 50, Type = ItemType.HEALTH };
+            _medKit = new Item { Name = "Medical Equipment  ", StatBoost = 50, Type = ItemType.HEALTH };
             _medKit.cost = 400;
         }
 
@@ -221,7 +223,7 @@ namespace Hello_Dungeon
         {
             for (int i = 0; i < inventory.Length; i++)
             {
-                Console.WriteLine((i + 1) + ". " + inventory[i].Name + inventory[i].cost);
+                Console.WriteLine((i + 1) + ". " + inventory[i].Name + "$" + inventory[i].cost);
             }
         }
 
@@ -280,9 +282,26 @@ namespace Hello_Dungeon
                 case Scene.ROOMTHREE:
                     FightingRoom2();
                     break;
+                case Scene.RESTARTMENU:
+                    RestartMenu();
+                    break;
             }
         }
 
+        void RestartMenu()
+        {
+            Console.WriteLine("You beat the game");
+            int choice = GetInput("Unless you want to play again", "Yes", "No");
+
+            if (choice == 0)
+            {
+                Start();
+            }
+            if (choice == 1)
+            {
+                _gameOver = true;
+            }
+        }
 
         void FightingRoom1()
         {
@@ -300,7 +319,13 @@ namespace Hello_Dungeon
             CheckBattleResults();
         }
 
-
+        void Exit()
+        {
+           
+                Console.WriteLine("Well you did not have to be rude about it");
+                Console.ReadKey(true);
+            
+        }
 
         void Shop()
         {
@@ -340,7 +365,7 @@ namespace Hello_Dungeon
                 case '6':
                     {
                         _currentScene++;
-                        break;
+                        return;
                     }
                 default:
                     {
@@ -448,6 +473,7 @@ namespace Hello_Dungeon
             {
                 Update();
             }
+            Exit();
         }
     }
 }

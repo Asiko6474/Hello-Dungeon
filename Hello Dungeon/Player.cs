@@ -124,7 +124,7 @@ namespace Hello_Dungeon
 		{
 			_job = job;
 			_gold = gold;
-			_inventory = new Item[0];
+			_inventory = new Item[5];
 		}
 	}
 }
