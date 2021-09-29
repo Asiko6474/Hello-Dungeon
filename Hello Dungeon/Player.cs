@@ -4,75 +4,137 @@ using System.Text;
 
 namespace Hello_Dungeon
 {
-    class Player : Entity
-    {
-        private Item[] _items;
-        private Item _currentItem;
-        private int _currentItemIndex;
-        private string _job;
-        private int _gold;
-        private Item[] _inventory;
+	class Player : Entity
+	{
+		private Item[] _items;
+		private Item[] _inventory;
+		private Item _currentItem;
+		private string _job;
+		private int _gold;
+		private int _currentItemIndex;
 
-        public Player()
-        {
-            _gold = 1000;
-            _inventory = new Item[3];
-        }
-        // Whe the player uses a store, this allows the player to actually buy things from said store.
-        public bool Buy(Item item, int inventoryIndex)
-        {
-            //if the player has more gold than the cost of the item
-            if(_gold >= item.cost)
-            {
-                _gold -= item.cost;
-                _inventory[inventoryIndex] = item;
-                return true;
-            }
+		public Player()
+		{
+			_gold = 1000;
+			_inventory = new Item[3];
+		}
+		// Whe the player uses a store, this allows the player to actually buy things from said store.
+		public bool Buy(Item item, int inventoryIndex)
+		{
+			//if the player has more gold than the cost of the item
+			if (_gold >= item.cost)
+			{
+				_gold -= item.cost;
+				_inventory[inventoryIndex] = item;
+				return true;
+			}
 
-            return false;
-        }
-        public override float DefenseLevel
-        {
-            get
-            {
-                if (_currentItem.Type == ItemType.DEFENSE)
-                    return base.DefenseLevel + _currentItem.StatBoost;
+			return false;
+		}
+		public override float DefenseLevel
+		{
+			get
+			{
+				if (_currentItem.Type == ItemType.DEFENSE)
+					return base.DefenseLevel + _currentItem.StatBoost;
 
-                return base.DefenseLevel;
-            }
-        }
+				return base.DefenseLevel;
+			}
+		}
 
-        public override float AttackLevel
-        {
-            get
-            {
-                if (_currentItem.Type == ItemType.ATTACK)
-                    return base.AttackLevel + _currentItem.StatBoost;
+		public override float AttackLevel
+		{
+			get
+			{
+				if (_currentItem.Type == ItemType.ATTACK)
+					return base.AttackLevel + _currentItem.StatBoost;
 
-                return base.AttackLevel;
-            }
-        }
+				return base.AttackLevel;
+			}
+		}
 
-        public override float Health
-        {
-            get
-            {
-                if (_currentItem.Type == ItemType.HEALTH)
-                    return base.Health + _currentItem.StatBoost;
+		public override float Health
+		{
+			get
+			{
+				if (_currentItem.Type == ItemType.HEALTH)
+					return base.Health + _currentItem.StatBoost;
 
-                return base.Health;
-            }
-        }
+				return base.Health;
+			}
+		}
 
-        public int GetGold()
-        {
-            return _gold;
-        }
+		public Item CurrentItem
+		{
+			get
+			{
+				return _currentItem;
+			}
+		}
 
-        public Item[] GetInventory()
-        {
-            return _inventory;
-        }
+		public int GetGold()
+		{
+			return _gold;
+		}
 
-    }
+		public Item[] GetInventory()
+		{
+			return _inventory;
+		}
+
+		public bool TryEquipItem(int index)
+		{
+			//If the index is out of bounds...
+			if (index >= _items.Length || index < 0)
+			{
+				//...return false
+				return false;
+			}
+
+			_currentItemIndex = index;
+
+			//Set the current item to be the array at the given index
+			_currentItem = _items[_currentItemIndex];
+
+			return true;
+		}
+
+		public bool TryRemoveCurrentItem()
+		{
+			//If the current item is set to nothing...
+			if (CurrentItem.Name == "Nothing")
+			{
+				//...return false
+				return false;
+			}
+
+			_currentItemIndex = -1;
+
+			//Set item to be nothing
+			_currentItem = new Item();
+			_currentItem.Name = "Nothing";
+
+			return true;
+		}
+
+		public string[] GetItemNames()
+		{
+			string[] itemNames = new string[_items.Length];
+
+			for (int i = 0; i < _items.Length; i++)
+			{
+				itemNames[i] = _items[i].Name;
+			}
+
+			return itemNames;
+		}
+
+
+
+		public Player(string name, float health, float attackLevel, float defenseLevel, string job, int gold) : base(name, health, attackLevel, defenseLevel)
+		{
+			_job = job;
+			_gold = gold;
+		}
+	}
 }
