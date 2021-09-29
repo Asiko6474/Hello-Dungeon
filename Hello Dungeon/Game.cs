@@ -78,7 +78,7 @@ namespace Hello_Dungeon
             Console.ForegroundColor
                 = ConsoleColor.Blue;
         }
-
+        //sets up the game's starting conditions
         public void Start()
         {
             _gameOver = false;
@@ -87,7 +87,7 @@ namespace Hello_Dungeon
             InitItems();
             _shopInventory = new Item[] { _greatsword, _shortsword, _obtainiumArmor, _ironArmor, _medKit };
             _shop = new Shop(_shopInventory);
-
+            //Gives the player a choice to start a new game or to load an old one
             int choice = GetInput("Do you want to start a new game or load an old one?");
             if (choice == 1)
             {
@@ -100,7 +100,7 @@ namespace Hello_Dungeon
                 Load();
             }
         }
-
+        // The function that allows to main gameplay loop to actually be a loop
         void Update()
         {
             DisplayCurrentScene();
@@ -134,7 +134,7 @@ namespace Hello_Dungeon
 
             _currentEnemy = _enemies[_currentEnemyIndex];
         }
-
+        //Shows what items the player can equip
         public void DisplayEquipItemMenu()
         {
             //Get item index
@@ -147,20 +147,23 @@ namespace Hello_Dungeon
             //Print feedback
             Console.WriteLine("You equipped " + _player.CurrentItem.Name + "!");
         }
-
+        //starts a battle with a set of enemies
         public void Battle()
         {
             float damageDealt = 0;
-
+            //displays each enemy's stats before each turn
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
-
+            //gives the palyer a choice of what they can do during each turn 
             int choice = GetInput("You see a " + _currentEnemy.Name + ". What will you do?", "Fight", "Equip Item", "Remove current item", "punch self", "Save");
+
+            //Attacks the enemy
             if (choice == 0)
             {
                 damageDealt = _player.Attack(_currentEnemy);
                 Console.WriteLine("You dealt " + damageDealt + " damage!");
             }
+            //equips an item
             else if (choice == 1)
             {
                 DisplayEquipItemMenu();
@@ -168,6 +171,7 @@ namespace Hello_Dungeon
                 Console.Clear();
                 return;
             }
+            //remove and equiped item
             else if (choice == 2)
             {
                 if (!_player.TryRemoveCurrentItem())
@@ -179,10 +183,12 @@ namespace Hello_Dungeon
                 Console.Clear();
                 return;
             }
+            //the player can hit themself
             else if (choice == 3)
             {
                 Console.WriteLine("Why are your hitting yourself?");
             }
+            //saves the game
             else if (choice == 4)
             {
                 Save();
@@ -191,22 +197,25 @@ namespace Hello_Dungeon
                 Console.Clear();
                 return;
             }
-
+            //the enemy attacks the player
             damageDealt = _currentEnemy.Attack(_player);
             Console.WriteLine("The " + _currentEnemy.Name + " dealt " + damageDealt, " damage!");
 
             Console.ReadKey(true);
             Console.Clear();
         }
-
+        //checks to see if the fight is over
         void CheckBattleResults()
         {
+            //if the player dies
             if (_player.Health <= 0)
             {
                 Console.WriteLine("You were slain...");
                 Console.ReadKey(true);
                 Console.Clear();
+                RestartMenu();
             }
+            // if the enemy dies
             else if (_currentEnemy.Health <= 0)
             {
                 Console.WriteLine("You slayed the " + _currentEnemy.Name);
@@ -214,6 +223,7 @@ namespace Hello_Dungeon
                 Console.Clear();
                 _currentEnemyIndex++;
 
+                //if all enemies are dead
                 if (_currentEnemyIndex >= _enemies.Length)
                 {
                     Console.WriteLine("All the enemies are now dead.");
@@ -225,6 +235,7 @@ namespace Hello_Dungeon
             }
         }
 
+        //initializes the items for use
         private void InitItems()
         {
             _greatsword = new Item { Name = "Great Sword ", StatBoost = 50, Type = ItemType.ATTACK };
@@ -238,7 +249,7 @@ namespace Hello_Dungeon
             _medKit = new Item { Name = "Medical Equipment  ", StatBoost = 50, Type = ItemType.HEALTH };
             _medKit.cost = 400;
         }
-
+        //prints an inventory for the player to see
         public void PrintInventory(Item[] inventory)
         {
             for (int i = 0; i < inventory.Length; i++)
@@ -246,7 +257,7 @@ namespace Hello_Dungeon
                 Console.WriteLine((i + 1) + ". " + inventory[i].Name + "$" + inventory[i].cost);
             }
         }
-
+       
         //This is to select the player's class in the game
         void CharacterClassSelection()
         {
@@ -273,7 +284,7 @@ namespace Hello_Dungeon
                 _currentScene++;
             }
         }
-
+        //Shows the player's stats
         void DisplayStats(Entity character)
         {
             Console.WriteLine("Name: " + character.Name);
@@ -307,11 +318,11 @@ namespace Hello_Dungeon
                     break;
             }
         }
-
+        //asks the player if they want to restart or not
         void RestartMenu()
         {
-            Console.WriteLine("You beat the game");
-            int choice = GetInput("Unless you want to play again", "Yes", "No");
+            
+            int choice = GetInput("do you want to play again", "Yes", "No");
 
             if (choice == 0)
             {
@@ -322,7 +333,7 @@ namespace Hello_Dungeon
                 _gameOver = true;
             }
         }
-
+        //The first room you fight in
         void FightingRoom1()
         {
             Battle();
@@ -332,13 +343,13 @@ namespace Hello_Dungeon
                 _currentScene++;
             }
         }
-
+        //the secon room you fight in
         void FightingRoom2()
         {
             Battle();
             CheckBattleResults();
         }
-
+        //Exits the game
         void Exit()
         {
            
@@ -346,17 +357,20 @@ namespace Hello_Dungeon
                 Console.ReadKey(true);
             
         }
-
+        //opens the in game shop
         void Shop()
         {
 
-            Console.WriteLine("Welcome! Please selct an item.");
+            Console.WriteLine("Welcome! Please select an item.");
+            //Shows the player the amount of money they have left
             Console.WriteLine("\nYou have: $" + _player.Gold());
+            //shows the palyer what the shop has
             PrintInventory(_shopInventory);
             char input = Console.ReadKey().KeyChar;
             int itemIndex = -1;
             switch (input)
             {
+                //each case is an item to buy
                 case '1':
                     {
                         itemIndex = 0;
@@ -392,18 +406,20 @@ namespace Hello_Dungeon
                         return;
                     }
             }
-
+            //Checks to see if the player can afford the item they want 
             if (_player.Gold() < _shopInventory[itemIndex].cost)
             {
                 Console.WriteLine("You cant afford this.");
                 return;
             }
-
+            //allows the palyer to place the item they want in the slot of their choice
             Console.WriteLine("Choose a slot to replace.");
+            //shows the player inventory 
             PrintInventory(_player.GetInventory());
             input = Console.ReadKey().KeyChar;
 
             int playerIndex = -1;
+            //each case is a slot the player can put an item into
             switch (input)
             {
                 case '1':
@@ -437,15 +453,9 @@ namespace Hello_Dungeon
                     }
             }
 
-            //Sell item to player and replace the weapon at the index with the newly purchased weapon
+            //The shop sells the item the player wants to the player
             _shop.Sell(_player, itemIndex, playerIndex);
 
-
-        }
-
-        //This will be the first thing in the game that gives the player to start a new game, or to load a game
-        void MainMenu()
-        {
 
         }
         //This function allows the player to put in options
@@ -486,6 +496,7 @@ namespace Hello_Dungeon
             return inputReceived;
         }
 
+        //saves the game
         public void Save()
         {
             //Create a new stream writer
@@ -501,7 +512,7 @@ namespace Hello_Dungeon
             //Close writer when done saving
             writer.Close();
         }
-
+        //loads the game
         public bool Load()
         {
             bool loadSuccessful = true;
@@ -514,9 +525,8 @@ namespace Hello_Dungeon
             //Create a new reader to read from the text file
             StreamReader reader = new StreamReader("SaveData.txt");
 
-            //If the first line can't be converted into an integer...
+            //Checks to see if the first line can be converted into an integer
             if (!int.TryParse(reader.ReadLine(), out _currentEnemyIndex))
-                //...return false
                 loadSuccessful = false;
 
             if (!_player.Load(reader))
@@ -536,13 +546,18 @@ namespace Hello_Dungeon
             return loadSuccessful;
         }
 
+        //runs the game
         public void Run()
         {
             Start();
+            //While not game over
             while(!_gameOver)
             {
+                //update the game
                 Update();
+                //if the game is over
             }
+            //exit the game
             Exit();
         }
     }

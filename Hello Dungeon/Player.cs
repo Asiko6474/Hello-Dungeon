@@ -17,16 +17,19 @@ namespace Hello_Dungeon
             return _gold;
         }
 
+		//initializes the player 
 		public Player(string name, float health, float attackLevel, float defenseLevel, string job, int gold) : base(name, health, attackLevel, defenseLevel)
 		{
 			_job = job;
 			_gold = gold;
+			//makes a new inventory with 5 empty slots
 			_inventory = new Item[5];
 		}
 
-
+		//This allows the pleyer to buy items from a shop
 		public bool Buy(Item item, int playerInventory)
         {
+			//checks to see if the player has more money than the cost of the item they want to buy
             if (_gold >= item.cost)
             {
                 _gold -= item.cost;
@@ -35,8 +38,11 @@ namespace Hello_Dungeon
 
                 return true;
             }
+			//if the player can't afford the item, then the purchase is false
             return false;
         }
+
+		//alows armor to increase defense
 		public override float DefenseLevel
 		{
 			get
@@ -47,7 +53,7 @@ namespace Hello_Dungeon
 				return base.DefenseLevel;
 			}
 		}
-
+		//allowes weapons to increase attack
 		public override float AttackLevel
 		{
 			get
@@ -58,7 +64,7 @@ namespace Hello_Dungeon
 				return base.AttackLevel;
 			}
 		}
-
+		//allows health items to heal
 		public override float Health
 		{
 			get
@@ -69,7 +75,6 @@ namespace Hello_Dungeon
 				return base.Health;
 			}
 		}
-
 		public Item CurrentItem
 		{
 			get
@@ -77,7 +82,7 @@ namespace Hello_Dungeon
 				return _currentItem;
 			}
 		}
-
+		//allows other classes to call the player inventory with this function
 		public Item[] GetInventory()
 		{
 			return _inventory;
@@ -117,7 +122,7 @@ namespace Hello_Dungeon
 
 			return true;
 		}
-
+		//gets the names of items in an inventory
 		public string[] GetItemNames()
 		{
 			string[] itemNames = new string[_inventory.Length];
@@ -130,7 +135,7 @@ namespace Hello_Dungeon
 			return itemNames;
 		}
 
-
+		//saves the palyer class 
 		public override void Save(StreamWriter writer)
 		{
 			base.Save(writer);

@@ -31,6 +31,8 @@ namespace Hello_Dungeon
         {
             get { return _defenseLevel; }
         }
+
+        //initializes a default entity
         public Entity()
         {
             _name = "John Doe";
@@ -42,6 +44,8 @@ namespace Hello_Dungeon
             _attackLevel = attackLevel;
             _defenseLevel = defenseLevel;
         }
+
+        //Allows entities to take damage during combat
         public float TakeDamage(float damageAmount)
         {
             float damageTaken = damageAmount - DefenseLevel;
@@ -55,12 +59,12 @@ namespace Hello_Dungeon
 
             return damageTaken;
         }
-
+        //allows entities to attack each other
         public float Attack(Entity defender)
         {
             return defender.TakeDamage(AttackLevel);
         }
-
+        //saves entity data
         public virtual void Save(StreamWriter writer)
         {
             writer.WriteLine(_name);
@@ -68,6 +72,7 @@ namespace Hello_Dungeon
             writer.WriteLine(_attackLevel);
             writer.WriteLine(_defenseLevel);
         }
+        //loads entity data
         public virtual bool Load(StreamReader reader)
         {
             _name = reader.ReadLine();
