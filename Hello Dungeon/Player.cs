@@ -6,30 +6,28 @@ namespace Hello_Dungeon
 {
 	class Player : Entity
 	{
-		private Item[] _inventory;
+        int _gold;
+        Item[] _inventory;
 		private Item _currentItem;
 		private string _job;
-		private int _gold;
 		private int _currentItemIndex;
+		public int Gold()
+        {
+            return _gold;
+        }
 
-		public Player()
-		{
-			_gold = 1000;
-			_inventory = new Item[5];
-		}
-		// Whe the player uses a store, this allows the player to actually buy things from said store.
-		public bool Buy(Item item, int inventoryIndex)
-		{
-			//if the player has more gold than the cost of the item
-			if (_gold >= item.cost)
-			{
-				_gold -= item.cost;
-				_inventory[inventoryIndex] = item;
-				return true;
-			}
+        public bool Buy(Item item, int playerInventory)
+        {
+            if (_gold >= item.cost)
+            {
+                _gold -= item.cost;
 
-			return false;
-		}
+                _inventory[playerInventory] = item;
+
+                return true;
+            }
+            return false;
+        }
 		public override float DefenseLevel
 		{
 			get
@@ -69,11 +67,6 @@ namespace Hello_Dungeon
 			{
 				return _currentItem;
 			}
-		}
-
-		public int GetGold()
-		{
-			return _gold;
 		}
 
 		public Item[] GetInventory()
@@ -127,13 +120,11 @@ namespace Hello_Dungeon
 
 			return itemNames;
 		}
-
-
-
 		public Player(string name, float health, float attackLevel, float defenseLevel, string job, int gold) : base(name, health, attackLevel, defenseLevel)
 		{
 			_job = job;
 			_gold = gold;
+			_inventory = new Item[0];
 		}
 	}
 }

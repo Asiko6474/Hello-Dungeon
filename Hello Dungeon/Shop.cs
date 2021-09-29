@@ -22,12 +22,12 @@ namespace Hello_Dungeon
             _inventory = items;
         }
 
-        public bool Sell(Player player, int itemIndex, int playerIndex)
+        public bool Sell(Player player, int itemIndex, int playerInventory)
         {
             //Find the item to buy in the inventory array
             Item itemToBuy = _inventory[itemIndex];
             //Check to see if the player ourchased the item successfully.
-            if (player.Buy(itemToBuy, playerIndex))
+            if (player.Buy(itemToBuy, playerInventory))
             {
                 //Increase shops gold by item cost to complete the transaction
                 _gold += itemToBuy.cost;

@@ -80,7 +80,6 @@ namespace Hello_Dungeon
         public void Start()
         {
             _gameOver = false;
-            _player = new Player();
             _currentScene = 0;
             initilizeEnemies();
             InitItems();
@@ -226,8 +225,6 @@ namespace Hello_Dungeon
             }
         }
 
-
-
         //This is to select the player's class in the game
         void CharacterClassSelection()
         {
@@ -309,7 +306,7 @@ namespace Hello_Dungeon
         {
 
             Console.WriteLine("Welcome! Please selct an item.");
-            Console.WriteLine("\nYou have: $" + _player.GetGold());
+            Console.WriteLine("\nYou have: $" + _player.Gold());
             PrintInventory(_shopInventory);
             char input = Console.ReadKey().KeyChar;
             int itemIndex = -1;
@@ -351,7 +348,7 @@ namespace Hello_Dungeon
                     }
             }
 
-            if (_player.GetGold() < _shopInventory[itemIndex].cost)
+            if (_player.Gold() < _shopInventory[itemIndex].cost)
             {
                 Console.WriteLine("You cant afford this.");
                 return;
