@@ -82,12 +82,17 @@ namespace Hello_Dungeon
         {
             _gameOver = false;
             _player = new Player();
+            _currentScene = 0;
+            initilizeEnemies();
             InitItems();
             _shopInventory = new Item[] { _greatsword, _shortsword, _obtainiumArmor, _ironArmor, _medKit };
             _shop = new Shop(_shopInventory);
         }
 
-
+        void Update()
+        {
+            DisplayCurrentScene();
+        }
 
         // this function is to get the plyer's name.
         void GetPlayerName()
@@ -138,7 +143,7 @@ namespace Hello_Dungeon
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
 
-            if (_currentEnemyIndex == 3)
+            if (_currentEnemyIndex == 2)
             {
                 _currentScene++;
             }
@@ -207,15 +212,15 @@ namespace Hello_Dungeon
 
         private void InitItems()
         {
-            _greatsword = new Item { Name = "Great Sword", StatBoost = 50, Type = ItemType.ATTACK };
+            _greatsword = new Item { Name = "Great Sword $", StatBoost = 50, Type = ItemType.ATTACK };
             _greatsword.cost = 1000;
-            _shortsword = new Item { Name = "Short Sword", StatBoost = 25, Type = ItemType.ATTACK };
+            _shortsword = new Item { Name = "Short Sword $", StatBoost = 25, Type = ItemType.ATTACK };
             _shortsword.cost = 500;
-            _obtainiumArmor = new Item { Name = "The Legendary Obtainium Armor!!!", StatBoost = 100, Type = ItemType.DEFENSE };
+            _obtainiumArmor = new Item { Name = "The Legendary Obtainium Armor!!! $", StatBoost = 100, Type = ItemType.DEFENSE };
             _obtainiumArmor.cost = 180000;
-            _ironArmor = new Item { Name = "Iron Armor", StatBoost = 25, Type = ItemType.DEFENSE };
+            _ironArmor = new Item { Name = "Iron Armor $", StatBoost = 25, Type = ItemType.DEFENSE };
             _ironArmor.cost = 200;
-            _medKit = new Item { Name = "Medical Equipment", StatBoost = 50, Type = ItemType.HEALTH };
+            _medKit = new Item { Name = "Medical Equipment  $", StatBoost = 50, Type = ItemType.HEALTH };
             _medKit.cost = 400;
         }
 
@@ -223,7 +228,7 @@ namespace Hello_Dungeon
         {
             for (int i = 0; i < inventory.Length; i++)
             {
-                Console.WriteLine((i + 1) + ", " + inventory[i].Name + inventory[i].cost);
+                Console.WriteLine((i + 1) + ". " + inventory[i].Name + inventory[i].cost);
             }
         }
 
@@ -269,11 +274,32 @@ namespace Hello_Dungeon
         //This function will keep playing the game in the appropiate order.
         void DisplayCurrentScene()
         {
-           
+           switch (_currentScene)
+            {
+                case Scene.INTRODUCTION:
+                    GetPlayerName();
+                    CharacterClassSelection();
+                    break;
+                case Scene.ROOMONE:
+                    FightingRoom1();
+                    break;
+                case Scene.ROOMTWO:
+                    Shop();
+                    break;
+                case Scene.ROOMTHREE:
+                    FightingRoom2();
+                    break;
+            }
         }
 
 
         void FightingRoom1()
+        {
+            Battle();
+            CheckBattleResults();
+        }
+
+        void FightingRoom2()
         {
             Battle();
             CheckBattleResults();
@@ -314,7 +340,7 @@ namespace Hello_Dungeon
                     }
                 case '6':
                     {
-                        itemIndex = 4;
+                        _currentScene++;
                         break;
                     }
                 default:
@@ -418,7 +444,11 @@ namespace Hello_Dungeon
 
         public void Run()
         {
-
+            Start();
+            while(!_gameOver)
+            {
+                Update();
+            }
         }
     }
 }
