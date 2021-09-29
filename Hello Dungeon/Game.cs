@@ -41,7 +41,6 @@ namespace Hello_Dungeon
         private Entity[] _enemies;
         string _playerName;
         private Player _player;
-        string _class;
         private Entity _currentEnemy;
         Scene _currentScene;
 
@@ -143,11 +142,6 @@ namespace Hello_Dungeon
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
 
-            if (_currentEnemyIndex == 2)
-            {
-                _currentScene++;
-            }
-
             int choice = GetInput("You see a " + _currentEnemy.Name + ". What will you do?", "Fight", "Equip Item", "Remove current item", "punch self");
             if (choice == 0)
             {
@@ -241,22 +235,22 @@ namespace Hello_Dungeon
                 "Man-At-Arms (75 health, 75 attack, 75 defense) ",
                 "Heavy (75 health, 50 attack, 100 defense) ");
 
-            //This is to turn into a scout which make the player's stats 50 health, 125 attack, 50 defense. The class name will be stated afterwards followed by 200 gold
+            //This is to turn into a scout which make the player's stats 50 health, 125 attack, 50 defense. The class name will be stated afterwards followed by 1000 gold
             if (choice == 0)
             {
-                _player = new Player(_playerName, 50, 125, 50, "scout", 200);
+                _player = new Player(_playerName, 50, 125, 50, "scout", 1000);
                 _currentScene++;
             }
-            //this is to turn into a Man-At-Arms which make the player's stats 75 for health, attack, and defense. The class name will be stated afterwards followed by 200 gold
+            //this is to turn into a Man-At-Arms which make the player's stats 75 for health, attack, and defense. The class name will be stated afterwards followed by 1000 gold
             if (choice == 1)
             {
-                _player = new Player(_playerName, 75, 75, 75, "Man-At-Arms", 200);
+                _player = new Player(_playerName, 75, 75, 75, "Man-At-Arms", 1000);
                 _currentScene++;
             }
-            //This is the turn into a Heavy, which make the player's stats 75 health, 50 attack, 100 defense. The class name will be stated afterwards followed by 200 gold
+            //This is the turn into a Heavy, which make the player's stats 75 health, 50 attack, 100 defense. The class name will be stated afterwards followed by 1000 gold
             if (choice == 2)
             {
-                _player = new Player(_playerName, 75, 50, 100, "Heavy", 200);
+                _player = new Player(_playerName, 75, 50, 100, "Heavy", 1000);
                 _currentScene++;
             }
         }
@@ -297,6 +291,10 @@ namespace Hello_Dungeon
         {
             Battle();
             CheckBattleResults();
+            if (_currentEnemyIndex == 3)
+            {
+                _currentScene++;
+            }
         }
 
         void FightingRoom2()
@@ -305,9 +303,13 @@ namespace Hello_Dungeon
             CheckBattleResults();
         }
 
+
+
         void Shop()
         {
+
             Console.WriteLine("Welcome! Please selct an item.");
+            Console.WriteLine("\nYou have: $" + _player.GetGold());
             PrintInventory(_shopInventory);
             char input = Console.ReadKey().KeyChar;
             int itemIndex = -1;

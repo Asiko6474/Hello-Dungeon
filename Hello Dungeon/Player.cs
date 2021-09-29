@@ -6,7 +6,6 @@ namespace Hello_Dungeon
 {
 	class Player : Entity
 	{
-		private Item[] _items;
 		private Item[] _inventory;
 		private Item _currentItem;
 		private string _job;
@@ -85,7 +84,7 @@ namespace Hello_Dungeon
 		public bool TryEquipItem(int index)
 		{
 			//If the index is out of bounds...
-			if (index >= _items.Length || index < 0)
+			if (index >= _inventory.Length || index < 0)
 			{
 				//...return false
 				return false;
@@ -94,7 +93,7 @@ namespace Hello_Dungeon
 			_currentItemIndex = index;
 
 			//Set the current item to be the array at the given index
-			_currentItem = _items[_currentItemIndex];
+			_currentItem = _inventory[_currentItemIndex];
 
 			return true;
 		}
@@ -119,11 +118,11 @@ namespace Hello_Dungeon
 
 		public string[] GetItemNames()
 		{
-			string[] itemNames = new string[_items.Length];
+			string[] itemNames = new string[_inventory.Length];
 
-			for (int i = 0; i < _items.Length; i++)
+			for (int i = 0; i < _inventory.Length; i++)
 			{
-				itemNames[i] = _items[i].Name;
+				itemNames[i] = _inventory[i].Name;
 			}
 
 			return itemNames;
