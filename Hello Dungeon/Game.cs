@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Hello_Dungeon
 {
@@ -86,6 +87,18 @@ namespace Hello_Dungeon
             InitItems();
             _shopInventory = new Item[] { _greatsword, _shortsword, _obtainiumArmor, _ironArmor, _medKit };
             _shop = new Shop(_shopInventory);
+
+            int choice = GetInput("Do you want to start a new game or load an old one?");
+            if (choice == 1)
+            {
+                Console.WriteLine("Starting new game");
+                Console.ReadKey(true);
+                Console.Clear();
+            }
+            if (choice == 2)
+            {
+                Load();
+            }
         }
 
         void Update()
@@ -142,7 +155,7 @@ namespace Hello_Dungeon
             DisplayStats(_player);
             DisplayStats(_currentEnemy);
 
-            int choice = GetInput("You see a " + _currentEnemy.Name + ". What will you do?", "Fight", "Equip Item", "Remove current item", "punch self");
+            int choice = GetInput("You see a " + _currentEnemy.Name + ". What will you do?", "Fight", "Equip Item", "Remove current item", "punch self", "Save");
             if (choice == 0)
             {
                 damageDealt = _player.Attack(_currentEnemy);
@@ -170,7 +183,14 @@ namespace Hello_Dungeon
             {
                 Console.WriteLine("Why are your hitting yourself?");
             }
-
+            else if (choice == 4)
+            {
+                Save();
+                Console.WriteLine("You saved the game");
+                Console.ReadKey(true);
+                Console.Clear();
+                return;
+            }
 
             damageDealt = _currentEnemy.Attack(_player);
             Console.WriteLine("The " + _currentEnemy.Name + " dealt " + damageDealt, " damage!");
@@ -464,6 +484,56 @@ namespace Hello_Dungeon
                 Console.Clear();
             }
             return inputReceived;
+        }
+
+        public void Save()
+        {
+            //Create a new stream writer
+            StreamWriter writer = new StreamWriter("SaveData.txt");
+
+            //Save current enemy index
+            writer.WriteLine(_currentEnemyIndex);
+
+            //Save player and enemy stats
+            _player.Save(writer);
+            _currentEnemy.Save(writer);
+
+            //Close writer when done saving
+            writer.Close();
+        }
+
+        public bool Load()
+        {
+            bool loadSuccessful = true;
+
+            //If the file doesn't exist...
+            if (!File.Exists("SaveData.txt"))
+                //...return false
+                loadSuccessful = false;
+
+            //Create a new reader to read from the text file
+            StreamReader reader = new StreamReader("SaveData.txt");
+
+            //If the first line can't be converted into an integer...
+            if (!int.TryParse(reader.ReadLine(), out _currentEnemyIndex))
+                //...return false
+                loadSuccessful = false;
+
+            if (!_player.Load(reader))
+                loadSuccessful = false;
+
+            //Create a new instance and try to load the enemy
+            _currentEnemy = new Entity();
+            if (!_currentEnemy.Load(reader))
+                loadSuccessful = false;
+
+            //Update the array to match the current enemy stats
+            _enemies[_currentEnemyIndex] = _currentEnemy;
+
+            //Close the reader once loading is finished
+            reader.Close();
+
+            return loadSuccessful;
         }
 
         public void Run()

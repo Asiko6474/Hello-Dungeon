@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Hello_Dungeon
 {
@@ -59,5 +60,29 @@ namespace Hello_Dungeon
         {
             return defender.TakeDamage(AttackLevel);
         }
+
+        public virtual void Save(StreamWriter writer)
+        {
+            writer.WriteLine(_name);
+            writer.WriteLine(_health);
+            writer.WriteLine(_attackLevel);
+            writer.WriteLine(_defenseLevel);
+        }
+        public virtual bool Load(StreamReader reader)
+        {
+            _name = reader.ReadLine();
+
+            if (!float.TryParse(reader.ReadLine(), out _health))
+                return false;
+
+            if (!float.TryParse(reader.ReadLine(), out _attackLevel))
+                return false;
+
+            if (!float.TryParse(reader.ReadLine(), out _defenseLevel))
+                return false;
+
+            return true;
+        }
+
     }
 }

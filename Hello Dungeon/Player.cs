@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Hello_Dungeon
 {
@@ -16,7 +17,15 @@ namespace Hello_Dungeon
             return _gold;
         }
 
-        public bool Buy(Item item, int playerInventory)
+		public Player(string name, float health, float attackLevel, float defenseLevel, string job, int gold) : base(name, health, attackLevel, defenseLevel)
+		{
+			_job = job;
+			_gold = gold;
+			_inventory = new Item[5];
+		}
+
+
+		public bool Buy(Item item, int playerInventory)
         {
             if (_gold >= item.cost)
             {
@@ -120,11 +129,28 @@ namespace Hello_Dungeon
 
 			return itemNames;
 		}
-		public Player(string name, float health, float attackLevel, float defenseLevel, string job, int gold) : base(name, health, attackLevel, defenseLevel)
+
+
+		public override void Save(StreamWriter writer)
 		{
-			_job = job;
-			_gold = gold;
-			_inventory = new Item[5];
+			base.Save(writer);
+			writer.WriteLine(_currentItemIndex);
+		}
+
+		public override bool Load(StreamReader reader)
+		{
+			//If the base loading function fails..
+			if (!base.Load(reader))
+				//...return false
+				return false;
+
+			//If the current line can't be converted into an int...
+			if (!int.TryParse(reader.ReadLine(), out _currentItemIndex))
+				//...return false
+				return false;
+
+			//Return whether or not the item was equipped successfully
+			return TryEquipItem(_currentItemIndex);
 		}
 	}
 }
