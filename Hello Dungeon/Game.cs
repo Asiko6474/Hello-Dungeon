@@ -7,7 +7,6 @@ namespace Hello_Dungeon
     public enum Scene
     {
         INTRODUCTION,
-        SHOP,
         ROOMONE,
         ROOMTWO,
         ROOMTHREE
@@ -30,12 +29,13 @@ namespace Hello_Dungeon
     }
     class Game
     {
-
+        private Item[] _shopInventory;
         private Item _greatsword;
         private Item _shortsword;
         private Item _obtainiumArmor;
         private Item _ironArmor;
         private Item _medKit;
+        private Shop _shop;
         int _currentEnemyIndex;
         bool _gameOver;
         private Entity[] _enemies;
@@ -77,6 +77,17 @@ namespace Hello_Dungeon
             Console.ForegroundColor
                 = ConsoleColor.Blue;
         }
+
+        public void Start()
+        {
+            _gameOver = false;
+            _player = new Player();
+            InitItems();
+            _shopInventory = new Item[] { _greatsword, _shortsword, _obtainiumArmor, _ironArmor, _medKit };
+            _shop = new Shop(_shopInventory);
+        }
+
+
 
         // this function is to get the plyer's name.
         void GetPlayerName()
@@ -194,17 +205,17 @@ namespace Hello_Dungeon
             }
         }
 
-            private void InitItems()
+        private void InitItems()
         {
-            _greatsword.Name = "Great Sword";
+            _greatsword = new Item { Name = "Great Sword", StatBoost = 50, Type = ItemType.ATTACK };
             _greatsword.cost = 1000;
-            _shortsword.Name = "Short Sword";
+            _shortsword = new Item { Name = "Short Sword", StatBoost = 25, Type = ItemType.ATTACK };
             _shortsword.cost = 500;
-            _obtainiumArmor.Name = "Legendary Obtainium Armor!!!!";
+            _obtainiumArmor = new Item { Name = "The Legendary Obtainium Armor!!!", StatBoost = 100, Type = ItemType.DEFENSE };
             _obtainiumArmor.cost = 180000;
-            _ironArmor.Name = "Iron Armour";
+            _ironArmor = new Item { Name = "Iron Armor", StatBoost = 25, Type = ItemType.DEFENSE };
             _ironArmor.cost = 200;
-            _medKit.Name = "Medical Kit";
+            _medKit = new Item { Name = "Medical Equipment", StatBoost = 50, Type = ItemType.HEALTH };
             _medKit.cost = 400;
         }
 
@@ -264,9 +275,103 @@ namespace Hello_Dungeon
 
         void FightingRoom1()
         {
-
+            Battle();
+            CheckBattleResults();
         }
 
+        void Shop()
+        {
+            Console.WriteLine("Welcome! Please selct an item.");
+            PrintInventory(_shopInventory);
+            char input = Console.ReadKey().KeyChar;
+            int itemIndex = -1;
+            switch (input)
+            {
+                case '1':
+                    {
+                        itemIndex = 0;
+                        break;
+                    }
+                case '2':
+                    {
+                        itemIndex = 1;
+                        break;
+                    }
+                case '3':
+                    {
+                        itemIndex = 2;
+                        break;
+                    }
+                case '4':
+                    {
+                        itemIndex = 3;
+                        break;
+                    }
+                case '5':
+                    {
+                        itemIndex = 4;
+                        break;
+                    }
+                case '6':
+                    {
+                        itemIndex = 4;
+                        break;
+                    }
+                default:
+                    {
+                        return;
+                    }
+            }
+
+            if (_player.GetGold() < _shopInventory[itemIndex].cost)
+            {
+                Console.WriteLine("You cant afford this.");
+                return;
+            }
+
+            Console.WriteLine("Choose a slot to replace.");
+            PrintInventory(_player.GetInventory());
+            input = Console.ReadKey().KeyChar;
+
+            int playerIndex = -1;
+            switch (input)
+            {
+                case '1':
+                    {
+                        playerIndex = 0;
+                        break;
+                    }
+                case '2':
+                    {
+                        playerIndex = 1;
+                        break;
+                    }
+                case '3':
+                    {
+                        playerIndex = 2;
+                        break;
+                    }
+                case '4':
+                    {
+                        playerIndex = 3;
+                        break;
+                    }
+                case '5':
+                    {
+                        playerIndex = 4;
+                        break;
+                    }
+                default:
+                    {
+                        return;
+                    }
+            }
+
+            //Sell item to player and replace the weapon at the index with the newly purchased weapon
+            _shop.Sell(_player, itemIndex, playerIndex);
+
+
+        }
 
         //This will be the first thing in the game that gives the player to start a new game, or to load a game
         void MainMenu()

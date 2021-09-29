@@ -16,7 +16,7 @@ namespace Hello_Dungeon
 		public Player()
 		{
 			_gold = 1000;
-			_inventory = new Item[3];
+			_inventory = new Item[5];
 		}
 		// Whe the player uses a store, this allows the player to actually buy things from said store.
 		public bool Buy(Item item, int inventoryIndex)
