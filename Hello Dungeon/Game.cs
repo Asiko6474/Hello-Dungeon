@@ -18,8 +18,7 @@ namespace Hello_Dungeon
     {
         DEFENSE,
         ATTACK,
-        HEALTH,
-        NONE
+        HEALTH
     }
 
     public struct Item
@@ -46,38 +45,6 @@ namespace Hello_Dungeon
         private Entity _currentEnemy;
         Scene _currentScene;
 
-        // This section is for my color changing functions
-
-        void MakeTextYellow()
-        {
-            Console.ForegroundColor
-            = ConsoleColor.Yellow;
-        }
-        void MakeTextWhite()
-        {
-            Console.ForegroundColor
-            = ConsoleColor.White;
-        }
-        void MakeTextDarkRed()
-        {
-            Console.ForegroundColor
-            = ConsoleColor.DarkRed;
-        }
-        void MakeTextRed()
-        {
-            Console.ForegroundColor
-            = ConsoleColor.Red;
-        }
-        void MakeTextDarkBlue()
-        {
-            Console.ForegroundColor
-                = ConsoleColor.DarkBlue;
-        }
-        void MakeTextBlue()
-        {
-            Console.ForegroundColor
-                = ConsoleColor.Blue;
-        }
         //sets up the game's starting conditions
         public void Start()
         {
@@ -364,7 +331,7 @@ namespace Hello_Dungeon
             Console.WriteLine("Welcome! Please select an item.");
             //Shows the player the amount of money they have left
             Console.WriteLine("\nYou have: $" + _player.Gold());
-            //shows the palyer what the shop has
+            //shows the player what the shop has
             PrintInventory(_shopInventory);
             char input = Console.ReadKey().KeyChar;
             int itemIndex = -1;

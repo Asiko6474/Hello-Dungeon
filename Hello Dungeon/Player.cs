@@ -53,7 +53,7 @@ namespace Hello_Dungeon
 				return base.DefenseLevel;
 			}
 		}
-		//allowes weapons to increase attack
+		//allows weapons to increase attack
 		public override float AttackLevel
 		{
 			get
